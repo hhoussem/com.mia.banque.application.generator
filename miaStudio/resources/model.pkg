@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE PACKAGE SYSTEM "package.dtd">
-<PACKAGE NAME="model" METAMODEL="MVC" NUMBER="11"
+<PACKAGE NAME="model" METAMODEL="MVC" NUMBER="10"
 >
 	<fileHeader version="6" toolName="Mia-Generation" toolVersion="9.2.1"/>
 	<SCENARIO NAME="ModelGeneration" VISIBILITY="public" META_OBJECT="Model" CATEGORY="default">
 		<SERVICE_CALL NAME="current" PACKAGE="System" META_OBJECT="Model"/>
-		<GENERATION_STEP TYPE="FileTemplate" PACKAGE="interfaces" META_OBJECT="Model" CATEGORY="default" NAME="interface" PARAM_COUNT="0"/>
-		<GENERATION_STEP TYPE="FileTemplate" PACKAGE="interfaces" META_OBJECT="Model" CATEGORY="default" NAME="implementation" PARAM_COUNT="0"/>
+		<GENERATION_STEP TYPE="FileTemplate" PACKAGE="model" META_OBJECT="Model" CATEGORY="default" NAME="ModelInterface" PARAM_COUNT="0"/>
+		<GENERATION_STEP TYPE="FileTemplate" PACKAGE="model" META_OBJECT="Model" CATEGORY="default" NAME="ModelImplementation" PARAM_COUNT="0"/>
 	</SCENARIO>
 	<SCRIPT NAME="IListGettersAndSetters" META_OBJECT="EObject" CATEGORY="default">
 		<TEXT><![CDATA[
@@ -39,7 +39,7 @@ public List<I[[args.param@¤] get[[args.param]]s() {
 ]]></TEXT>
 		<PARAMETER NAME="param" TYPE_KIND="object" TYPE_NAME="Object"/>
 	</SCRIPT>
-	<SCRIPT NAME="implementation" META_OBJECT="Model" CATEGORY="default" FILE_ENCODING="windows-1252" VISIBILITY="private">
+	<SCRIPT NAME="ModelImplementation" META_OBJECT="Model" CATEGORY="default" FILE_ENCODING="windows-1252" VISIBILITY="private">
 		<TEXT><![CDATA[
 package com.mia.banque.model.impl;
 
@@ -57,12 +57,12 @@ public class [[name]] implements I[[name]] {
 ]]></TEXT>
 		<PROPERTY NAME="Filename"/>
 	</SCRIPT>
-	<SCRIPT NAME="implementation$Filename" META_OBJECT="Model" CATEGORY="default">
+	<SCRIPT NAME="ModelImplementation$Filename" META_OBJECT="Model" CATEGORY="default">
 		<TEXT><![CDATA[
 com.mia.banque.application.generated/src/com/mia/banque/model/impl/[[name]].java
 ]]></TEXT>
 	</SCRIPT>
-	<SCRIPT NAME="interface" META_OBJECT="Model" CATEGORY="default" FILE_ENCODING="windows-1252" VISIBILITY="public">
+	<SCRIPT NAME="ModelInterface" META_OBJECT="Model" CATEGORY="default" FILE_ENCODING="windows-1252" VISIBILITY="public">
 		<TEXT><![CDATA[
 package com.mia.banque.model;
 
@@ -75,16 +75,11 @@ public interface  I[[name]] {
 ]]></TEXT>
 		<PROPERTY NAME="Filename"/>
 	</SCRIPT>
-	<SCRIPT NAME="interface$Filename" META_OBJECT="Model" CATEGORY="default">
+	<SCRIPT NAME="ModelInterface$Filename" META_OBJECT="Model" CATEGORY="default">
 		<TEXT><![CDATA[
 com.mia.banque.application.generated/src/com/mia/banque/model/I[[name]].java
 ]]></TEXT>
 	</SCRIPT>
-	<TEXT_MACRO NAME="ListGetterAndSetter" META_OBJECT="ModelProperty" CATEGORY="default" RETURN_TYPE_KIND="primitive" RETURN_TYPE_NAME="String">
-		<TEXT><![CDATA[
-return null;
-]]></TEXT>
-	</TEXT_MACRO>
 	<SCRIPT NAME="attributes" META_OBJECT="ModelProperty" CATEGORY="default">
 		<TEXT><![CDATA[
 	private String [[current.name]];
