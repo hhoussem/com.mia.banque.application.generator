@@ -43,7 +43,7 @@ public void [[current.name]](){
 	</SCRIPT>
 	<SCRIPT NAME="controlerMethods$BeginTag" META_OBJECT="Action" CATEGORY="default">
 		<TEXT><![CDATA[
-// Start of customized code
+// Start of customized code for [[name]]
 ]]></TEXT>
 	</SCRIPT>
 	<SCRIPT NAME="controlerMethods$EndTag" META_OBJECT="Action" CATEGORY="default">
@@ -238,7 +238,12 @@ com.mia.banque.application.generated/src/com/mia/banque/ui/view/I[[current.name]
 	</SCRIPT>
 	<TEXT_MACRO NAME="ownedElt" META_OBJECT="View" CATEGORY="default" RETURN_TYPE_KIND="primitive" RETURN_TYPE_NAME="String">
 		<TEXT><![CDATA[
-return current.getModel().getOwnedElements().get(0).getName();
+if(current.getModel().getOwnedElements().size() > 0){
+	return current.getModel().getOwnedElements().get(0).getName();
+}
+else{
+	return null;
+}
 ]]></TEXT>
 	</TEXT_MACRO>
 	<METAMODELS_INFO_CACHE>
