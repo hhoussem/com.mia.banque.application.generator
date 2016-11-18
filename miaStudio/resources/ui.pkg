@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE PACKAGE SYSTEM "package.dtd">
+<PACKAGE NAME="ui" METAMODEL="MVC" NUMBER="20"
+>
+	<fileHeader version="6" toolName="Mia-Generation" toolVersion="9.2.1"/>
+	<SCENARIO NAME="UiGeneration" VISIBILITY="public" META_OBJECT="View" CATEGORY="default">
+		<SERVICE_CALL NAME="current" PACKAGE="System" META_OBJECT="View"/>
+		<GENERATION_STEP TYPE="FileTemplate" PACKAGE="ui" META_OBJECT="View" CATEGORY="default" NAME="ViewInterface" PARAM_COUNT="0"/>
+		<GENERATION_STEP TYPE="FileTemplate" PACKAGE="ui" META_OBJECT="View" CATEGORY="default" NAME="ControlerInterface" PARAM_COUNT="0"/>
+		<GENERATION_STEP TYPE="FileTemplate" PACKAGE="ui" META_OBJECT="View" CATEGORY="default" NAME="ViewImpl" PARAM_COUNT="0"/>
+		<GENERATION_STEP TYPE="FileTemplate" PACKAGE="ui" META_OBJECT="View" CATEGORY="default" NAME="ControlerImpl" PARAM_COUNT="0"/>
+	</SCENARIO>
+	<SCRIPT NAME="Imethods" META_OBJECT="Action" CATEGORY="default">
+		<TEXT><![CDATA[
+public void [[current.name]]();
+
+]]></TEXT>
+	</SCRIPT>
+	<SCRIPT NAME="buttonDeclaration" META_OBJECT="Action" CATEGORY="default">
+		<TEXT><![CDATA[
+private Button [[buttonName]];
+	
+]]></TEXT>
+	</SCRIPT>
+	<TEXT_MACRO NAME="buttonName" META_OBJECT="Action" CATEGORY="default" RETURN_TYPE_KIND="primitive" RETURN_TYPE_NAME="String">
+		<TEXT><![CDATA[
+return "btn"+current.getName();
+]]></TEXT>
+	</TEXT_MACRO>
+	<SCRIPT NAME="controlerMethods" META_OBJECT="Action" CATEGORY="default">
+		<TEXT><![CDATA[
+public void [[current.name]](){
+[[BeginTag]]
+
+
+[[EndTag]]
+}
+
+
+]]></TEXT>
+		<PROPERTY NAME="BeginTag"/>
+		<PROPERTY NAME="EndTag"/>
+	</SCRIPT>
+	<SCRIPT NAME="controlerMethods$BeginTag" META_OBJECT="Action" CATEGORY="default">
+		<TEXT><![CDATA[
+// Start of customized code
+]]></TEXT>
+	</SCRIPT>
+	<SCRIPT NAME="controlerMethods$EndTag" META_OBJECT="Action" CATEGORY="default">
+		<TEXT><![CDATA[
+// End of customized code
+]]></TEXT>
+	</SCRIPT>
+	<SCRIPT NAME="delegateMethods" META_OBJECT="Action" CATEGORY="default">
+		<TEXT><![CDATA[
+	public void [[current.name]](){
+		this.controler.[[current.name]]();
+	}
+	
+]]></TEXT>
+	</SCRIPT>
+	<SCRIPT NAME="ControlerConstructor" META_OBJECT="View" CATEGORY="default">
+		<TEXT><![CDATA[
+public [[ControlerName]](com.mia.banque.model.I[[ModelName]] model) {
+		this.model = model;
+	}
+]]></TEXT>
+	</SCRIPT>
+	<SCRIPT NAME="ControlerImpl" META_OBJECT="View" CATEGORY="default" FILE_ENCODING="windows-1252" VISIBILITY="private">
+		<TEXT><![CDATA[
+package com.mia.banque.ui.controler.swt;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Group;
+
+import com.mia.banque.ui.controler.I[[ControlerName]];
+import com.mia.banque.ui.view.I[[ModelName]]View;
+import com.mia.banque.ui.view.swt.[[ModelName]]View;
+import com.mia.banque.model.*;
+
+public class [[ControlerName]] implements I[[ControlerName]] {
+
+	private [[ModelName]]View view;
+	private I[[ModelName]] model;
+	
+	[[actions.buttonDeclaration]]
+	public List ClientList;
+	
+	[[ControlerConstructor]]
+
+	public void initView() {
+		Display display = Display.getDefault();
+		
+		
+		this.view = new [[ModelName]]View(display, this.model, this);
+		this.view.open();
+		this.view.layout();
+		
+		while (!this.view.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+
+	}
+
+	[[actions.controlerMethods]]
+}
+]]></TEXT>
+		<PROPERTY NAME="Filename"/>
+	</SCRIPT>
+	<SCRIPT NAME="ControlerImpl$Filename" META_OBJECT="View" CATEGORY="default">
+		<TEXT><![CDATA[
+com.mia.banque.application.generated/src/com/mia/banque/ui/controler/swt/[[ControlerName]].java
+]]></TEXT>
+	</SCRIPT>
+	<SCRIPT NAME="ControlerInterface" META_OBJECT="View" CATEGORY="default" FILE_ENCODING="windows-1252" VISIBILITY="private">
+		<TEXT><![CDATA[
+package com.mia.banque.ui.controler;
+
+public interface I[[ControlerName]] {
+	
+	public void initView();
+	
+	[[actions.Imethods]]
+	
+	
+}
+]]></TEXT>
+		<PROPERTY NAME="Filename"/>
+	</SCRIPT>
+	<SCRIPT NAME="ControlerInterface$Filename" META_OBJECT="View" CATEGORY="default">
+		<TEXT><![CDATA[
+com.mia.banque.application.generated/src/com/mia/banque/ui/controler/I[[ControlerName]].java
+]]></TEXT>
+	</SCRIPT>
+	<TEXT_MACRO NAME="ControlerName" META_OBJECT="View" CATEGORY="default" RETURN_TYPE_KIND="primitive" RETURN_TYPE_NAME="String">
+		<TEXT><![CDATA[
+return current.getModel().getName()+"Controler";
+]]></TEXT>
+	</TEXT_MACRO>
+	<TEXT_MACRO NAME="ModelName" META_OBJECT="View" CATEGORY="default" RETURN_TYPE_KIND="primitive" RETURN_TYPE_NAME="String">
+		<TEXT><![CDATA[
+return current.getModel().getName();
+]]></TEXT>
+	</TEXT_MACRO>
+	<SCRIPT NAME="ViewConstructor" META_OBJECT="View" CATEGORY="default">
+		<TEXT><![CDATA[
+public [[name]](Display display, I[[ModelName]] model, I[[ControlerName]] controler) {
+		super(display, SWT.SHELL_TRIM);
+		this.model = model;
+		this.controler = controler;
+		
+		createContents();
+	}
+]]></TEXT>
+	</SCRIPT>
+	<SCRIPT NAME="ViewImpl" META_OBJECT="View" CATEGORY="default" FILE_ENCODING="windows-1252" VISIBILITY="private">
+		<TEXT><![CDATA[
+package com.mia.banque.ui.view.swt;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.List;
+import org.eclipse.swt.widgets.Group;
+
+import com.mia.banque.ui.controler.I[[ControlerName]];
+import com.mia.banque.ui.view.I[[current.name]];
+import com.mia.banque.model.I[[ModelName]];
+
+public class [[current.name]] extends Shell implements I[[current.name]] {
+
+	private I[[ControlerName]] controler;
+	private I[[ModelName]] model;
+	[[actions.buttonDeclaration]]
+	public List [[ownedElt]]List;
+	
+	[[ViewConstructor]]
+	
+	[[actions.delegateMethods]]
+	
+	private void createContents(){
+		setText("Vue [[ModelName]]");
+		setSize(458, 308);
+		setLayout(new GridLayout(2, false));
+		
+		
+		
+	}
+	
+	
+		@Override
+	protected void checkSubclass() {
+		// Disable the check that prevents subclassing of SWT components
+	}
+}
+]]></TEXT>
+		<PROPERTY NAME="Filename"/>
+	</SCRIPT>
+	<SCRIPT NAME="ViewImpl$Filename" META_OBJECT="View" CATEGORY="default">
+		<TEXT><![CDATA[
+com.mia.banque.application.generated/src/com/mia/banque/ui/view/swt/[[current.name]].java
+]]></TEXT>
+	</SCRIPT>
+	<SCRIPT NAME="ViewInterface" META_OBJECT="View" CATEGORY="default" FILE_ENCODING="windows-1252" VISIBILITY="private">
+		<TEXT><![CDATA[
+package com.mia.banque.ui.view;
+
+public interface I[[name]] {
+	[[actions.Imethods]]
+	
+}
+]]></TEXT>
+		<PROPERTY NAME="Filename"/>
+	</SCRIPT>
+	<SCRIPT NAME="ViewInterface$Filename" META_OBJECT="View" CATEGORY="default">
+		<TEXT><![CDATA[
+com.mia.banque.application.generated/src/com/mia/banque/ui/view/I[[current.name]].java
+]]></TEXT>
+	</SCRIPT>
+	<TEXT_MACRO NAME="ownedElt" META_OBJECT="View" CATEGORY="default" RETURN_TYPE_KIND="primitive" RETURN_TYPE_NAME="String">
+		<TEXT><![CDATA[
+return current.getModel().getOwnedElements().get(0).getName();
+]]></TEXT>
+	</TEXT_MACRO>
+	<METAMODELS_INFO_CACHE>
+		<METAMODEL_IMPORT CLAUSE="com.mia.formation.mvc.*" RELATED_METAS="Action,Model,ModelProperty,UIApplication,View,NamedElement"/>
+		<METAMODEL_CONTAINER_QNAME CQNAME="mvc" RELATED_METAS="Action,Model,ModelProperty,UIApplication,View,NamedElement"/>
+	</METAMODELS_INFO_CACHE>
+</PACKAGE>

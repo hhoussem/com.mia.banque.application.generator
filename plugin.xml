@@ -7,7 +7,8 @@
    <extension point="com.mia.studio.generation.core.generation_package">
       <package file="miaStudio/resources/model.pkg"/>
    </extension>
+   
    <extension point="com.mia.studio.generation.core.generation_package">
-      <package file="miaStudio/resources/view.pkg"/>
+      <package file="miaStudio/resources/ui.pkg"/>
    </extension>
 </plugin>
